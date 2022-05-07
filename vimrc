@@ -1,6 +1,7 @@
 " Preamble
     set nocompatible              " be iMproved, required
     filetype off                  " required - can turn off later
+
 " Plugins with Vundle 
     "Finds the path to Vundle
         let hostname = substitute(system('hostname'), '\n', '', '')
@@ -12,16 +13,15 @@
 
     call vundle#begin()
     " Seem to have to swap these first two, depending on the PC
-     Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
+    Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
     "Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required - Acer-Artix (update May '22 - this line now doesnt work on acer-artix)
-    Plugin 'ervandew/supertab' " Supertab
+    Plugin 'ervandew/supertab' " Tab completion
     Plugin 'vim-latex/vim-latex' "Vim Latex
     Plugin 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
     Plugin 'vim-scripts/indentpython.vim' " indentpython.vim extension
     Plugin 'scrooloose/nerdcommenter'
     Plugin 'preservim/nerdtree'
     Plugin 'rafi/awesome-vim-colorschemes' "color schemes
-    Plugin 'kien/ctrlp.vim' "Ctrl-P Fuzzy search
     Plugin 'zorab47/vim-gams.git' "GAMS syntax highlighting
     Plugin 'itchyny/lightline.vim' "Allows changing the status bar colour
     Plugin 'jiangmiao/auto-pairs' "Adds the matching close bracket
@@ -30,11 +30,11 @@
     Plugin 'chrisbra/csv.vim' "CSV plugin
     Plugin 'iamcco/markdown-preview.nvim' "Markdown previewer - may need to run ':call mkdp#util#install() to get it to work
     Plugin 'tpope/vim-ragtag' " HTML (and other languages) assisstant
-    Plugin 'tpope/vim-surround' " Surround text with braces etc
     Plugin 'ap/vim-css-color' "CSS colour name highlighter
     Plugin 'kezhenxu94/vim-mysql-plugin.git'
     Plugin 'preservim/tagbar' "TagBar"
     call vundle#end()            " required
+
 " General
     au GUIEnter * simalt ~x " Open full screen
 
@@ -57,9 +57,9 @@
         inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
         function! XTermPasteBegin()
-        set pastetoggle=<Esc>[201~
-        set paste
-        return ""
+            set pastetoggle=<Esc>[201~
+            set paste
+            return ""
         endfunction
 
     " General editing
@@ -103,7 +103,7 @@
         autocmd VimEnter * wincmd p
         let NERDTreeShowBookmarks=1
 
-        "F3 toggles NERDTree
+        "leader-n toggles NERDTree
         autocmd VimEnter * nmap <leader>n :NERDTreeToggle<CR>
 
     " Clean things up a bit    
@@ -127,6 +127,7 @@
     " Fix accidentally hitting F1 and bringing up help instead of esc     
         inoremap <F1> <esc>
         vnoremap <F1> <esc>
+
 " Folding 
     " Enable folding
         set foldenable          
@@ -139,6 +140,7 @@
 
     " fold based on indent level
         set foldmethod=indent 
+
 " Python Commands
     " Special auto indent for python
     au BufNewFile,BufRead *.py
@@ -187,6 +189,10 @@
         autocmd Filetype python let @e = "oexit()"
         autocmd Filetype python let @b = "obreakpoint()"
         autocmd Filetype python let @n = "|f=a \\\<CR>kj"
+        
+    " Map leader-t to toggle tagbar
+    nmap <leader>t :TagbarToggle<CR>
+
 " Latex Suite 
     " REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
 
@@ -203,6 +209,7 @@
         if hostname == "TPad"
             set grepprg=grep\ -nH\ $*
         endif
+
 " Tex Commands
     au BufNewFile,BufRead *.tex
         \ set textwidth=8000       " will auto indent after this
@@ -225,7 +232,8 @@
     let g:Tex_ViewRule_dvi='SumatraPDF'
     let g:latex_viewer='SumatraPDF'
     let g:Tex_MultipleCompileFormats='pdf,bibtex,pdf'
-" GAMS Syntax
+
+" GAMS
     " Define file type
         au BufRead,BufNewFile *.gms set filetype=gams
 
@@ -234,19 +242,22 @@
 
     " Leader e goes to the next error
         autocmd BufRead,BufNewFile *.lst nnoremap <buffer> <leader>e :/\*\*\*\*<CR>
-" Processing Syntax (Python)
-    if filereadable("_vimrc_processing")
-        so _vimrc_processing
-    else
-        if filereadable("../_vimrc_processing")
-             so ../_vimrc_processing
+
+" Processing
+    " Python
+        if filereadable("_vimrc_processing")
+            so _vimrc_processing
+        else
+            if filereadable("../_vimrc_processing")
+                 so ../_vimrc_processing
+            endif
         endif
-    endif
-" Processing Syntax (Java)
-    " F9 runs the sketch.
-        autocmd FileType arduino nnoremap <buffer> <F9> :w<CR>:!prun<CR>
+    " Java
+        " F9 runs the sketch.
+            autocmd FileType arduino nnoremap <buffer> <F9> :w<CR>:!prun<CR>
+
 "Pymode
-""Pymode uses python 2 by default. Make it use python 3
+    ""Pymode uses python 2 by default. Make it use python 3
         :filetype indent on
 
         let g:pymode_python = 'python3'
@@ -266,6 +277,7 @@
         if has('python3')
           silent! python3 1
         endif
+
 "VIMRC
     " leader-rc opens the syncthing vimrc
         if hostname == "MR"
@@ -276,9 +288,11 @@
 
     " leader-g saves, sources and re-opens
        au BufRead,BufNewFile vimrc nnoremap <buffer> <leader>g :w<CR>:so %<CR>:e %<CR>
-" R
+
+"R
     "Run with F9
         autocmd FileType r nnoremap <buffer> <F9> :w <CR> :!Rscript.exe %<CR>
+
 " Markdown
     au BufNewFile, BufRead *.md
         \ set textwidth=8000       " will auto indent after this
@@ -290,6 +304,7 @@
     " leave from insert mode, default 0 is auto refresh markdown as you edit or
     " move the cursor
     " default: 0
+    
 " CSV Commands
     au BufNewFile,BufRead *.csv nnoremap <buffer> <CR> :HiColumn<CR>
     let g:csv_default_delim=','
@@ -297,14 +312,13 @@
 
     " F9 runs the code.  Would be nice if it produced a log file.  
         autocmd FileType gams nnoremap <buffer> <F9> :w !gams % errmsg=1<CR><CR>
+
 " Text File commands
     au BufNewFile, BufRead *.txt
         \ set textwidth=8000       " will auto indent after this
+
 " Java
-    autocmd FileType sh nnoremap <buffer> <F9> :w<CR>:! ./%<CR>
-" Shell
     autocmd FileType javascript nnoremap <buffer> <F9> :w<CR>:!clear && node %<CR>
-" Cheat sheet
-" Search for multiple terms: \term1\|term2\|term3
-"
-nmap <leader>t :TagbarToggle<CR>
+
+" Shell
+    autocmd FileType sh nnoremap <buffer> <F9> :w<CR>:! ./%<CR>
