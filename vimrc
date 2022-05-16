@@ -128,8 +128,8 @@
         inoremap <F1> <esc>
         vnoremap <F1> <esc>
 
-    " Auto complete
-        inoremap <S-Tab> <C-x><C-l>  "Auto-completes lines
+    " Auto complete lines
+        inoremap <S-Tab> <C-x><C-l> 
 
 " Folding 
     " Enable folding
