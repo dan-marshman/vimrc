@@ -118,16 +118,20 @@
     " Disable annoying bells
         autocmd GUIEnter * set vb t_vb=
 
-    " Insert newline below using ctrl-j while in normal mode
-        "nnoremap <C-n> A<CR><ESC>k
+    " Insert newline below using leader-j while in normal mode
+        nnoremap <leader>j o<ESC>k
 
     " Fix accidentally hitting F1 and bringing up help instead of esc     
         inoremap <F1> <esc>
         vnoremap <F1> <esc>
 
-    " Native autocomplete
-       set omnifunc=syntaxcomplete#Complete
-       "imap <leader>l <c-x><c-o> # I want to use this, but it makes typing "weird in insert mode (pause after spaces)
+    " Auto complete lines
+        inoremap <S-Tab> <C-x><C-l> 
+
+    "Change directory
+        nnoremap <leader>cd :cd %:h<CR>
+        nnoremap <leader>lcd :lcd %:h<CR>
+
 " Folding 
     " Enable folding
         set foldenable          
@@ -272,7 +276,7 @@
 "VIMRC
     " leader-rc opens the syncthing vimrc
         if hostname == "MR"
-            map <leader>rc :tabnew ~/Documents/syncthing/code/vimrc_file/_vimrc<CR>
+            map <leader>rc :tabnew ~/vimfiles/vimrc<CR>
         elseif hostname() == "acer-artix"
             map <leader>rc :tabnew ~/.vim/vimrc<CR>
         endif 
