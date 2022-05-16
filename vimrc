@@ -122,7 +122,7 @@
         autocmd GUIEnter * set vb t_vb=
 
     " Insert newline below using ctrl-j while in normal mode
-        "nnoremap <C-n> A<CR><ESC>k
+        nnoremap <leader><n> A<CR><ESC>k
 
     " Fix accidentally hitting F1 and bringing up help instead of esc     
         inoremap <F1> <esc>
