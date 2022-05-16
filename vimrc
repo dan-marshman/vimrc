@@ -284,7 +284,7 @@
 "VIMRC
     " leader-rc opens the syncthing vimrc
         if hostname == "MR"
-            map <leader>rc :tabnew ~/Documents/syncthing/code/vimrc_file/_vimrc<CR>
+            map <leader>rc :tabnew ~/vimfiles/vimrc<CR>
         elseif hostname() == "acer-artix"
             map <leader>rc :tabnew ~/.vim/vimrc<CR>
         endif 
