@@ -1,4 +1,4 @@
-bundle\*
-plugin\*
-filetype.vim
-ftplugin.vim
+*
+!README
+!vimrc
+!.gitignore
