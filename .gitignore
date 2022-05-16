@@ -1,0 +1,4 @@
+bundle\*
+plugin\*
+filetype.vim
+ftplugin.vim
