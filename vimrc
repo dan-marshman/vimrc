@@ -1,7 +1,6 @@
 " Preamble
     set nocompatible              " be iMproved, required
     filetype off                  " required - can turn off later
-
 " Plugins with Vundle 
     "Finds the path to Vundle
         let hostname = substitute(system('hostname'), '\n', '', '')
@@ -13,8 +12,8 @@
 
     call vundle#begin()
     " Seem to have to swap these first two, depending on the PC
-    Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
-    "Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required - Acer-Artix (update May '22 - this line now doesnt work on acer-artix)
+    "Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
+    Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required - Acer-Artix (update May '22 - this line now doesnt work on acer-artix)
     Plugin 'ervandew/supertab' " Tab completion
     Plugin 'vim-latex/vim-latex' "Vim Latex
     Plugin 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
@@ -24,7 +23,6 @@
     Plugin 'rafi/awesome-vim-colorschemes' "color schemes
     Plugin 'zorab47/vim-gams.git' "GAMS syntax highlighting
     Plugin 'itchyny/lightline.vim' "Allows changing the status bar colour
-    Plugin 'jiangmiao/auto-pairs' "Adds the matching close bracket
     Plugin 'airblade/vim-gitgutter' "Shows git symbols in the 'gutter'
     Plugin 'mattn/emmet-vim' "HTML plugin
     Plugin 'chrisbra/csv.vim' "CSV plugin
@@ -34,7 +32,6 @@
     Plugin 'kezhenxu94/vim-mysql-plugin.git'
     Plugin 'preservim/tagbar' "TagBar"
     call vundle#end()            " required
-
 " General
     au GUIEnter * simalt ~x " Open full screen
 
@@ -87,7 +84,7 @@
     " change leader
         let mapleader=" "
 
-    " Toggles spell check with leader-o    
+    " Toggles spell check with leader-s    
         nnoremap <leader>s :set spell! <CR>
 
     "split navigations - basically the same as the nav keys, but with ctrl
@@ -128,6 +125,9 @@
         inoremap <F1> <esc>
         vnoremap <F1> <esc>
 
+    " Native autocomplete
+       set omnifunc=syntaxcomplete#Complete
+       "imap <leader>l <c-x><c-o> # I want to use this, but it makes typing "weird in insert mode (pause after spaces)
 " Folding 
     " Enable folding
         set foldenable          
@@ -140,7 +140,6 @@
 
     " fold based on indent level
         set foldmethod=indent 
-
 " Python Commands
     " Special auto indent for python
     au BufNewFile,BufRead *.py
@@ -178,7 +177,7 @@
         autocmd FileType python3 nnoremap <buffer> <F7> :w<CR>:! clear && python -m unittest<CR>
         autocmd FileType python nnoremap <buffer> <F7> :w<CR>:! clear && python -m unittest<CR>
         "
-    " leader-dj means running django, so F9 does runserver
+    " leader-dj means running django, so jd does runserver
         map <leader>jd :w <CR> :!python manage.py runserver <CR>
 
     " Make python code pretty
@@ -192,7 +191,6 @@
         
     " Map leader-t to toggle tagbar
     nmap <leader>t :TagbarToggle<CR>
-
 " Latex Suite 
     " REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
 
@@ -209,16 +207,14 @@
         if hostname == "TPad"
             set grepprg=grep\ -nH\ $*
         endif
-
 " Tex Commands
     au BufNewFile,BufRead *.tex
         \ set textwidth=8000       " will auto indent after this
 
      "autocmd BufEnter *.tex colorscheme atom
 
-    " Save before compiling with leader t or F9
-    autocmd BufEnter *.tex map <Leader>t :w<CR><Leader>ll 
-    autocmd BufEnter *.tex map <F9> <Leader>t
+    " Save before compiling with leader t
+    autocmd BufEnter *.tex map <Leader>g :w<CR><Leader>ll 
         
     autocmd Filetype tex let @a = "a\\added{}"
     autocmd Filetype tex let @d = "xi\\deleted{}kjPa"
@@ -232,17 +228,14 @@
     let g:Tex_ViewRule_dvi='SumatraPDF'
     let g:latex_viewer='SumatraPDF'
     let g:Tex_MultipleCompileFormats='pdf,bibtex,pdf'
-
 " GAMS
     " Define file type
         au BufRead,BufNewFile *.gms set filetype=gams
 
-    " F9 runs the code.  Would be nice if it produced a log file.  
-        autocmd FileType gams nnoremap <buffer> <F9> :w !gams % errmsg=1<CR><CR>
-
+    "leader-g runs the code.  Would be nice if it produced a log file.  
+        autocmd FileType gams nnoremap <buffer> <leader>g :w !gams % errmsg=1<CR><CR>
     " Leader e goes to the next error
         autocmd BufRead,BufNewFile *.lst nnoremap <buffer> <leader>e :/\*\*\*\*<CR>
-
 " Processing
     " Python
         if filereadable("_vimrc_processing")
@@ -253,9 +246,8 @@
             endif
         endif
     " Java
-        " F9 runs the sketch.
-            autocmd FileType arduino nnoremap <buffer> <F9> :w<CR>:!prun<CR>
-
+        " leader-g runs the sketch.
+            autocmd FileType arduino nnoremap <buffer> <leader>g :w<CR>:!prun<CR>
 "Pymode
     ""Pymode uses python 2 by default. Make it use python 3
         :filetype indent on
@@ -277,7 +269,6 @@
         if has('python3')
           silent! python3 1
         endif
-
 "VIMRC
     " leader-rc opens the syncthing vimrc
         if hostname == "MR"
@@ -289,22 +280,18 @@
     " leader-g saves, sources and re-opens
        au BufRead,BufNewFile vimrc nnoremap <buffer> <leader>g :w<CR>:so %<CR>:e %<CR>
 
+    " leader-c cleans and leader-i installs
+        nnoremap <leader>c :PluginClean<CR>
+        nnoremap <leader>i :PluginInstall<CR>
 "R
-    "Run with F9
-        autocmd FileType r nnoremap <buffer> <F9> :w <CR> :!Rscript.exe %<CR>
-
+    "Run with leader-g
+        autocmd FileType r nnoremap <buffer> <leader>g :w <CR> :!Rscript.exe %<CR>
 " Markdown
     au BufNewFile, BufRead *.md
         \ set textwidth=8000       " will auto indent after this
-    autocmd BufEnter *.md map <F9>:w<CR>
 
-    " set to 1, nvim will open the preview window after entering the markdown buffer default: 0
+    " set to 1, vim opens the preview window after entering the markdown buffer default: 0
     let g:mkdp_auto_start = 1
-    " set to 1, the vim will refresh markdown when save the buffer or
-    " leave from insert mode, default 0 is auto refresh markdown as you edit or
-    " move the cursor
-    " default: 0
-    
 " CSV Commands
     au BufNewFile,BufRead *.csv nnoremap <buffer> <CR> :HiColumn<CR>
     let g:csv_default_delim=','
@@ -312,13 +299,12 @@
 
     " F9 runs the code.  Would be nice if it produced a log file.  
         autocmd FileType gams nnoremap <buffer> <F9> :w !gams % errmsg=1<CR><CR>
-
 " Text File commands
     au BufNewFile, BufRead *.txt
         \ set textwidth=8000       " will auto indent after this
-
 " Java
-    autocmd FileType javascript nnoremap <buffer> <F9> :w<CR>:!clear && node %<CR>
-
+    " Just define leader-g to run
+        autocmd FileType javascript nnoremap <buffer> <leader>g :w<CR>:!clear && node %<CR>
 " Shell
-    autocmd FileType sh nnoremap <buffer> <F9> :w<CR>:! ./%<CR>
+    " Just define leader-g to run
+        autocmd FileType sh nnoremap <buffer> <leader>g :w<CR>:! ./%<CR>
