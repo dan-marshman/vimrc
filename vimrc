@@ -131,6 +131,10 @@
     " Auto complete lines
         inoremap <S-Tab> <C-x><C-l> 
 
+    "Change directory
+        nnoremap <leader>cd :cd %:h<CR>
+        nnoremap <leader>lcd :lcd %:h<CR>
+
 " Folding 
     " Enable folding
         set foldenable          
