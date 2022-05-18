@@ -131,7 +131,6 @@
     "Change directory
         nnoremap <leader>cd :cd %:h<CR>
         nnoremap <leader>lcd :lcd %:h<CR>
-
 " Folding 
     " Enable folding
         set foldenable          
@@ -139,11 +138,15 @@
     " 10 nested fold max
         set foldnestmax=10      
 
-    "space f open/closes folds
-        nnoremap <space>f za
+    "leader-f open a folds at cursor and leader-qf opens all folds at cursor
+        nnoremap <leader>f za
+        nnoremap <leader>qf zO
 
     " fold based on indent level
         set foldmethod=indent 
+
+    " Map leader-t to toggle tagbar
+        nmap <leader>t :TagbarToggle<CR>
 " Python Commands
     " Special auto indent for python
     au BufNewFile,BufRead *.py
@@ -176,6 +179,7 @@
                 autocmd FileType python nnoremap <buffer> <leader>g :w<CR>:! clear && python main.py<CR>
                 let g:python_run_main = 1
             endif
+            :e
         endfunction
 
         autocmd FileType python3 nnoremap <buffer> <F7> :w<CR>:! clear && python -m unittest<CR>
@@ -189,12 +193,8 @@
 
     " Direct python output to a vim window, not to the external shell
         autocmd Filetype python nnoremap <buffer> <F6> :w<CR>:ter python "%"<CR>
-        autocmd Filetype python let @e = "oexit()"
-        autocmd Filetype python let @b = "obreakpoint()"
-        autocmd Filetype python let @n = "|f=a \\\<CR>kj"
-        
-    " Map leader-t to toggle tagbar
-    nmap <leader>t :TagbarToggle<CR>
+        autocmd Filetype python let @e = "oexit()"  " Adds exit() on next line
+        autocmd Filetype python let @b = "obreakpoint()"  " Adds breakpoint on next line
 " Latex Suite 
     " REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
 
@@ -299,10 +299,9 @@
 " CSV Commands
     au BufNewFile,BufRead *.csv nnoremap <buffer> <CR> :HiColumn<CR>
     let g:csv_default_delim=','
-
-
-    " F9 runs the code.  Would be nice if it produced a log file.  
-        autocmd FileType gams nnoremap <buffer> <F9> :w !gams % errmsg=1<CR><CR>
+" GAMS Commands
+    " <leader>g runs the code.  
+        autocmd FileType gams nnoremap <buffer>g :w !gams % errmsg=1<CR><CR>
 " Text File commands
     au BufNewFile, BufRead *.txt
         \ set textwidth=8000       " will auto indent after this
