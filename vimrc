@@ -75,6 +75,7 @@
         set smartcase           " ignore case if search pattern is all lower case, case-sensitive otherwise
         set copyindent          " copy the previous indentation on auto-indenting
         set noswapfile
+        set updatetime=100  " Will update gitgutter (and other things) more regularly
         filetype plugin on      " Used by nerdcommenter to get 'comment string'
 
     " jk is escape and kj is escape write 
@@ -100,7 +101,7 @@
         autocmd VimEnter * wincmd p
         let NERDTreeShowBookmarks=1
 
-        "leader-n toggles NERDTree
+    " leader-n toggles NERDTree
         autocmd VimEnter * nmap <leader>n :NERDTreeToggle<CR>
 
     " Clean things up a bit    
@@ -128,9 +129,10 @@
     " Auto complete lines
         inoremap <S-Tab> <C-x><C-l> 
 
-    "Change directory
+    " Change directory shortcuts
         nnoremap <leader>cd :cd %:h<CR>
         nnoremap <leader>lcd :lcd %:h<CR>
+
 " Folding 
     " Enable folding
         set foldenable          
@@ -144,6 +146,9 @@
 
     " fold based on indent level
         set foldmethod=indent 
+    
+    " Toggle folding only the modified lines from gitgutter
+        nnoremap <leader>qg :GitGutterFold<CR>
 
     " Map leader-t to toggle tagbar
         nmap <leader>t :TagbarToggle<CR>
