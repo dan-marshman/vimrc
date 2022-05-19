@@ -221,10 +221,6 @@
     " Save before compiling with leader t
     autocmd BufEnter *.tex map <Leader>g :w<CR><Leader>ll 
         
-    autocmd Filetype tex let @a = "a\\added{}"
-    autocmd Filetype tex let @d = "xi\\deleted{}kjPa"
-    autocmd Filetype tex let @r = "xi\\replaced{}{}kjPa"
-
     "stop vim suite closing the file I compiled and opening something else
     let g:Tex_GotoError=0"
 
