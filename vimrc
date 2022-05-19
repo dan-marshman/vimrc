@@ -132,7 +132,6 @@
     " Change directory shortcuts
         nnoremap <leader>cd :cd %:h<CR>
         nnoremap <leader>lcd :lcd %:h<CR>
-
 " Folding 
     " Enable folding
         set foldenable          
@@ -211,7 +210,6 @@
     " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
     " The following changes the default filetype back to 'tex':
     let g:tex_flavor='latex'
-
 " Tex Commands
     au BufNewFile,BufRead *.tex
         \ set textwidth=8000       " will auto indent after this
