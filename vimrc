@@ -212,10 +212,6 @@
     " The following changes the default filetype back to 'tex':
     let g:tex_flavor='latex'
 
-
-        if hostname == "TPad"
-            set grepprg=grep\ -nH\ $*
-        endif
 " Tex Commands
     au BufNewFile,BufRead *.tex
         \ set textwidth=8000       " will auto indent after this
