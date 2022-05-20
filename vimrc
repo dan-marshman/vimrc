@@ -30,7 +30,8 @@
     Plugin 'tpope/vim-ragtag' " HTML (and other languages) assisstant
     Plugin 'ap/vim-css-color' "CSS colour name highlighter
     Plugin 'kezhenxu94/vim-mysql-plugin.git'
-    Plugin 'preservim/tagbar' "TagBar"
+    Plugin 'preservim/tagbar' "TagBar
+    Plugin 'tpope/vim-surround' " Vim surround for brackets and things
     call vundle#end()            " required
 " General
     au GUIEnter * simalt ~x " Open full screen
@@ -280,8 +281,8 @@
        au BufRead,BufNewFile vimrc nnoremap <buffer> <leader>g :w<CR>:so %<CR>:e %<CR>
 
     " leader-c cleans and leader-i installs
-        nnoremap <leader>c :PluginClean<CR>
-        nnoremap <leader>i :PluginInstall<CR>
+        nnoremap <leader>c :so %<CR>:PluginClean<CR>
+        nnoremap <leader>i :so %<CR>:PluginInstall<CR>
 "R
     "Run with leader-g
         autocmd FileType r nnoremap <buffer> <leader>g :w <CR> :!Rscript.exe %<CR>
