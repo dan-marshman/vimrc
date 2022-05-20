@@ -33,15 +33,18 @@
     Plugin 'preservim/tagbar' "TagBar
     Plugin 'tpope/vim-surround' " Vim surround for brackets and things
     Plugin 'tpope/vim-fugitive' "premier git plugin for Vim... apparently
-    call vundle#end()            " required test comment
+    call vundle#end()            " required 
 " General
     au GUIEnter * simalt ~x " Open full screen
 
     " Lightline scheme and make it reload when changing buffer
         let g:lightline = {'colorscheme': 'darcula'} "Lightline changes the status bar colour scheme"
+
         autocmd BufEnter * call lightline#enable()
 
     " Colorscheme
+        nnoremap <leader>qc1 :colorscheme  256_noir<CR>
+        nnoremap <leader>qc2 :colorscheme  elflord<CR>
         if has('unix') != 1
             colorscheme orbital
         endif
