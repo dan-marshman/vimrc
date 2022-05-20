@@ -33,7 +33,7 @@
     Plugin 'preservim/tagbar' "TagBar
     Plugin 'tpope/vim-surround' " Vim surround for brackets and things
     Plugin 'tpope/vim-fugitive' "premier git plugin for Vim... apparently
-    call vundle#end()            " required
+    call vundle#end()            " required test comment
 " General
     au GUIEnter * simalt ~x " Open full screen
 
