@@ -12,27 +12,27 @@
 
     call vundle#begin()
     " Seem to have to swap these first two, depending on the PC
-    "Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
-    Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required - Acer-Artix (update May '22 - this line now doesnt work on acer-artix)
-    Plugin 'ervandew/supertab' " Tab completion
-    Plugin 'vim-latex/vim-latex' "Vim Latex
+    "Plugin 'gmarik/Vundle.vim'                     " let Vundle manage Vundle, required
+    Plugin 'VundleVim/Vundle.vim'                   " let Vundle manage Vundle, required
+    Plugin 'ervandew/supertab'                      " Tab completion
+    Plugin 'vim-latex/vim-latex'                    " Vim Latex
+    Plugin 'vim-scripts/indentpython.vim'           " indentpython.vim extension
+    Plugin 'scrooloose/nerdcommenter'               " useful commenting
+    Plugin 'preservim/nerdtree'                     " provides a navigation window
+    Plugin 'rafi/awesome-vim-colorschemes'          " color schemes
+    Plugin 'zorab47/vim-gams.git'                   " GAMS syntax highlighting
+    Plugin 'itchyny/lightline.vim'                  " Allows changing the status bar colour
+    Plugin 'airblade/vim-gitgutter'                 " Shows git symbols in the 'gutter'
+    Plugin 'mattn/emmet-vim'                        " HTML plugin
+    Plugin 'chrisbra/csv.vim'                       " CSV pluginn n n n 'kezhenxu94/vim-mysql-plugin.git'
+    Plugin 'iamcco/markdown-preview.nvim'           " Markdown previewer. Run ':call mkdp#util#install() to make it  work
+    Plugin 'tpope/vim-ragtag'                       " HTML (and other languages) assisstant
+    Plugin 'ap/vim-css-color'                       " CSS colour name highlighter
+    Plugin 'preservim/tagbar'                       " Organises tags of functions and things to navigate quickly
+    Plugin 'tpope/vim-surround'                     " Vim surround for brackets and things
+    Plugin 'tpope/vim-fugitive'                     " premier git plugin for Vim... apparently
+    Plugin 'Townk/vim-autoclose'                    " Auto-close brackets and tings
     Plugin 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-    Plugin 'vim-scripts/indentpython.vim' " indentpython.vim extension
-    Plugin 'scrooloose/nerdcommenter'
-    Plugin 'preservim/nerdtree'
-    Plugin 'rafi/awesome-vim-colorschemes' "color schemes
-    Plugin 'zorab47/vim-gams.git' "GAMS syntax highlighting
-    Plugin 'itchyny/lightline.vim' "Allows changing the status bar colour
-    Plugin 'airblade/vim-gitgutter' "Shows git symbols in the 'gutter'
-    Plugin 'mattn/emmet-vim' "HTML plugin
-    Plugin 'chrisbra/csv.vim' "CSV plugin
-    Plugin 'iamcco/markdown-preview.nvim' "Markdown previewer - may need to run ':call mkdp#util#install() to get it to work
-    Plugin 'tpope/vim-ragtag' " HTML (and other languages) assisstant
-    Plugin 'ap/vim-css-color' "CSS colour name highlighter
-    Plugin 'kezhenxu94/vim-mysql-plugin.git'
-    Plugin 'preservim/tagbar' "TagBar
-    Plugin 'tpope/vim-surround' " Vim surround for brackets and things
-    Plugin 'tpope/vim-fugitive' "premier git plugin for Vim... apparently
     call vundle#end()            " required 
 " General
     au GUIEnter * simalt ~x " Open full screen
