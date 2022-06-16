@@ -77,6 +77,7 @@
         set showmatch           " highlight matching [{()}]
         set incsearch           " search as characters are entered
         set hlsearch            " highlight matches
+        set ignorecase
         set smartcase           " ignore case if search pattern is all lower case, case-sensitive otherwise
         set copyindent          " copy the previous indentation on auto-indenting
         set noswapfile
@@ -310,4 +311,7 @@
         autocmd FileType javascript nnoremap <buffer> <leader>g :w<CR>:!clear && node %<CR>
 " Shell
     " Just define leader-g to run
-        autocmd FileType sh nnoremap <buffer> <leader>g :w<CR>:! ./%<CR>
+        autocmd FileType sh nnoremap <buffer> <leader>g :w<CR>:! clear && ./%<CR>
+" C
+    autocmd FileType c nnoremap <buffer> <leader>g :w<CR>:!clear && gcc % -o %<.out  && ./%<.out<CR>
+    "autocmd FileType c set makeprg=make\ -C\ ../build\ -j9
