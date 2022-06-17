@@ -32,6 +32,7 @@
     Plugin 'tpope/vim-surround'                     " Vim surround for brackets and things
     Plugin 'tpope/vim-fugitive'                     " premier git plugin for Vim... apparently
     Plugin 'Townk/vim-autoclose'                    " Auto-close brackets and tings
+    Plugin 'kkoomen/vim-doge'                       " 
     Plugin 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
     call vundle#end()            " required 
 " General
@@ -194,7 +195,7 @@
 
         autocmd FileType python3 nnoremap <buffer> <F7> :w<CR>:! clear && python -m unittest<CR>
         autocmd FileType python nnoremap <buffer> <F7> :w<CR>:! clear && python -m unittest<CR>
-        "
+        
     " leader-dj means running django, so jd does runserver
         map <leader>jd :w <CR> :!python manage.py runserver <CR>
 
@@ -203,6 +204,8 @@
 
     " Direct python output to a vim window, not to the external shell
         autocmd Filetype python nnoremap <buffer> <F6> :w<CR>:ter python "%"<CR>
+
+    " Macros
         autocmd Filetype python let @e = "oexit()"  " Adds exit() on next line
         autocmd Filetype python let @b = "obreakpoint()"  " Adds breakpoint on next line
 " Latex Suite 
