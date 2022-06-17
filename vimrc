@@ -1,8 +1,9 @@
-" Preamble
-    set nocompatible              " be iMproved, required
-    filetype off                  " required - can turn off later
-" Plugins with Vundle 
-    "Finds the path to Vundle
+" ---------------------------------      Preamble           --------------
+    " Required
+        set nocompatible
+        filetype off
+" ---------------------------------      Vundle             --------------
+    "Set Vundle path
         let hostname = substitute(system('hostname'), '\n', '', '')
         if hostname == "MR"
             set rtp+=C:/Users/User/.vim/bundle/Vundle.vim
@@ -35,36 +36,7 @@
     Plugin 'kkoomen/vim-doge'                       " 
     Plugin 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
     call vundle#end()            " required 
-" General
-    au GUIEnter * simalt ~x " Open full screen
-
-    " Lightline scheme and make it reload when changing buffer
-        let g:lightline = {'colorscheme': 'darcula'} "Lightline changes the status bar colour scheme"
-
-        autocmd BufEnter * call lightline#enable()
-
-    " Colorscheme
-        nnoremap <leader>qc1 :colorscheme  256_noir<CR>
-        nnoremap <leader>qc2 :colorscheme  elflord<CR>
-        if has('unix') != 1
-            colorscheme orbital
-        endif
-        if has('unix') == 1
-            highlight Folded ctermbg=None ctermfg=Red
-        endif
-
-    " Automatically avoid weird indents when pasting from system clipboard.
-        let &t_SI .= "\<Esc>[?2004h"
-        let &t_EI .= "\<Esc>[?2004l"
-
-        inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
-        function! XTermPasteBegin()
-            set pastetoggle=<Esc>[201~
-            set paste
-            return ""
-        endfunction
-
+" ---------------------------------      General            --------------
     " General editing
         syntax enable           " enable syntax processing
         set shiftwidth=4
@@ -89,49 +61,46 @@
         inoremap jk <esc>l
         inoremap kj <esc>l:w<CR>
 
-    " change leader
-        let mapleader=" "
-
-    " Toggles spell check with leader-s    
-        nnoremap <leader>s :set spell! <CR>
-
     "split navigations - basically the same as the nav keys, but with ctrl
         nnoremap <C-J> <C-W><C-J>
         nnoremap <C-K> <C-W><C-K>
         nnoremap <C-L> <C-W><C-L>
         nnoremap <C-H> <C-W><C-H>
 
-    "Start NERDTree always (unless on unix) and show bookmarks
-        if has('unix') != 1
-            autocmd VimEnter * NERDTree
-        endif
-        autocmd VimEnter * wincmd p
-        let NERDTreeShowBookmarks=1
-
-    " leader-n toggles NERDTree
-        autocmd VimEnter * nmap <leader>n :NERDTreeToggle<CR>
-
-    " Clean things up a bit    
-        set guioptions-=L "Remove scrollbar
-        set guioptions-=T "Remove Toolbar
-        set guioptions-=m "Remove Menubar
-
     " Make vsplits open to right, splits open below
         :set splitright
         :set splitbelow
+        
+    " Fix accidentally hitting F1 and bringing up help instead of esc     
+        inoremap <F1> <esc>
+        vnoremap <F1> <esc>
+    " Colorscheme
+        nnoremap <leader>qc1 :colorscheme  256_noir<CR>
+        nnoremap <leader>qc2 :colorscheme  elflord<CR>
+" ---------------------------------      Functions          --------------
+    " Avoid
+    " Avoid indents when pasting from system clipboard.
+        let &t_SI .= "\<Esc>[?2004h"
+        let &t_EI .= "\<Esc>[?2004l"
+
+        inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+        function! XTermPasteBegin()
+            set pastetoggle=<Esc>[201~
+            set paste
+            return ""
+        endfunction
+" ---------------------------------      Leader mappings    --------------
+    let mapleader=" "
+
+    " Toggles spell check with leader-s    
+        nnoremap <leader>s :set spell! <CR>
 
     " Chnage line endings to dos
         map <leader>led :e ++ff=dos<CR>
 
-    " Disable annoying bells
-        autocmd GUIEnter * set vb t_vb=
-
     " Insert newline below using leader-j while in normal mode
         nnoremap <leader>j o<ESC>k
-
-    " Fix accidentally hitting F1 and bringing up help instead of esc     
-        inoremap <F1> <esc>
-        vnoremap <F1> <esc>
 
     " Auto complete lines
         inoremap <S-Tab> <C-x><C-l> 
@@ -139,7 +108,41 @@
     " Change directory shortcuts
         nnoremap <leader>cd :cd %:h<CR>
         nnoremap <leader>lcd :lcd %:h<CR>
-" Folding 
+" ---------------------------------      GUI/WINDOWS        --------------
+    " General things
+        au GUIEnter * simalt ~x " Open full screen
+        autocmd GUIEnter * set vb t_vb= " Disable annoying bells
+
+    " More minimal style
+        set guioptions-=L "Remove scrollbar
+        set guioptions-=T "Remove Toolbar
+        set guioptions-=m "Remove Menubar
+
+    "Start NERDTree always (unless on unix) and show bookmarks
+        if has('unix') != 1
+            autocmd VimEnter * NERDTree
+        endif
+        autocmd VimEnter * wincmd p
+        
+    " Colorscheme
+        if has('unix') != 1
+            colorscheme orbital
+        endif
+        if has('unix') == 1
+            highlight Folded ctermbg=None ctermfg=Red
+        endif
+" ---------------------------------      Plugins            --------------
+    " NERDTree
+        let NERDTreeShowBookmarks=1
+        "
+        " leader-n toggles NERDTree
+            autocmd VimEnter * nmap <leader>n :NERDTreeToggle<CR>
+            
+    " Lightline 
+        " Lightline colorscheme and make it reload when changing buffer
+        let g:lightline = {'colorscheme': 'darcula'} "Lightline changes the status bar colour scheme"
+        autocmd BufEnter * call lightline#enable()
+" ---------------------------------      Folding            --------------
     " Enable folding
         set foldenable          
 
@@ -158,8 +161,8 @@
 
     " Map leader-t to toggle tagbar
         nmap <leader>t :TagbarToggle<CR>
-" Python Commands
-    " Special auto indent for python
+" ---------------------------------      Python             --------------
+    " Auto-indent
     au BufNewFile,BufRead *.py
         \ set tabstop=4 |
         \ set softtabstop=4 |
@@ -208,9 +211,30 @@
     " Macros
         autocmd Filetype python let @e = "oexit()"  " Adds exit() on next line
         autocmd Filetype python let @b = "obreakpoint()"  " Adds breakpoint on next line
-" Latex Suite 
-    " REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
+" ---------------------------------      Pymode             --------------
+    " Settings
+        let g:pymode_options_max_line_length = 99
+        let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length}
+        let g:pymode_options_colorcolumn = 1
+       
+    :filetype indent on
+    " Pymode uses python 2 by default. Make it use python 3
+        let g:pymode_python = 'python3'
 
+    "Seem to need to set these on MR
+        if hostname == "MR"
+            set pythonthreehome=C:\Users\User\AppData\Local\Programs\Python\Python38-32
+            set pythonthreedll=C:\Users\User\AppData\Local\Programs\Python\Python38-32\python38.dll
+            let $PYTHONHOME = 'C:\Users\User\AppData\Local\Programs\Python\Python38-32'
+        endif 
+
+    "Avoids an annoying warning
+        if has('python3')
+          silent! python3 1
+        endif
+" ---------------------------------      Latex Suite        --------------
+    " REQUIRED.
+    " This makes vim invoke Latex-Suite when you open a tex file.
     " IMPORTANT: win32 users will need to have 'shellslash' set so that latex
     " can be called correctly.
     set shellslash
@@ -219,9 +243,9 @@
     " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
     " The following changes the default filetype back to 'tex':
     let g:tex_flavor='latex'
-" Tex Commands
-    au BufNewFile,BufRead *.tex
-        \ set textwidth=8000       " will auto indent after this
+" ---------------------------------      Tex                --------------
+    " Avoids indents
+    au BufNewFile,BufRead *.tex set textwidth=8000
 
      "autocmd BufEnter *.tex colorscheme atom
 
@@ -236,7 +260,7 @@
     let g:Tex_ViewRule_dvi='SumatraPDF'
     let g:latex_viewer='SumatraPDF'
     let g:Tex_MultipleCompileFormats='pdf,bibtex,pdf'
-" GAMS
+" ---------------------------------      GAMS               --------------
     " Define file type
         au BufRead,BufNewFile *.gms set filetype=gams
 
@@ -244,7 +268,7 @@
         autocmd FileType gams nnoremap <buffer> <leader>g :w !gams % errmsg=1<CR><CR>
     " Leader e goes to the next error
         autocmd BufRead,BufNewFile *.lst nnoremap <buffer> <leader>e :/\*\*\*\*<CR>
-" Processing
+" ---------------------------------      Processing         --------------
     " Python
         if filereadable("_vimrc_processing")
             so _vimrc_processing
@@ -256,29 +280,8 @@
     " Java
         " leader-g runs the sketch.
             autocmd FileType arduino nnoremap <buffer> <leader>g :w<CR>:!prun<CR>
-"Pymode
-    ""Pymode uses python 2 by default. Make it use python 3
-        :filetype indent on
-
-        let g:pymode_python = 'python3'
-
-        let g:pymode_options_max_line_length = 99
-        let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length}
-        let g:pymode_options_colorcolumn = 1
-       
-    "Seem to need to set these on MR
-        if hostname == "MR"
-            set pythonthreehome=C:\Users\User\AppData\Local\Programs\Python\Python38-32
-            set pythonthreedll=C:\Users\User\AppData\Local\Programs\Python\Python38-32\python38.dll
-            let $PYTHONHOME = 'C:\Users\User\AppData\Local\Programs\Python\Python38-32'
-        endif 
-
-    "Avoids an annoying warning
-        if has('python3')
-          silent! python3 1
-        endif
-"VIMRC
-    " leader-rc opens the syncthing vimrc
+" ---------------------------------      VIMRC              --------------
+    " leader-rc opens
         if hostname == "MR"
             map <leader>rc :tabnew ~/vimfiles/vimrc<CR>
         elseif hostname() == "acer-artix"
@@ -291,30 +294,31 @@
     " leader-c cleans and leader-i installs
         nnoremap <leader>c :so %<CR>:PluginClean<CR>
         nnoremap <leader>i :so %<CR>:PluginInstall<CR>
-"R
-    "Run with leader-g
+" ---------------------------------      R                  --------------
+    "leader-g runs
         autocmd FileType r nnoremap <buffer> <leader>g :w <CR> :!Rscript.exe %<CR>
-" Markdown
-    au BufNewFile, BufRead *.md
-        \ set textwidth=8000       " will auto indent after this
+" ---------------------------------      Markdown           --------------
+    " Avoid autoindents
+    au BufNewFile, BufRead *.md set textwidth=8000
 
     " set to 1, vim opens the preview window after entering the markdown buffer default: 0
     let g:mkdp_auto_start = 1
-" CSV Commands
-    au BufNewFile,BufRead *.csv nnoremap <buffer> <CR> :HiColumn<CR>
-    let g:csv_default_delim=','
-" GAMS Commands
-    " <leader>g runs the code.  
+" ---------------------------------      CSV                --------------
+    " Settings
+        let g:csv_default_delim=','
+        au BufNewFile,BufRead *.csv nnoremap <buffer> <CR> :HiColumn<CR>
+" ---------------------------------      GAMS               --------------
+    " <leader>g runs
         autocmd FileType gams nnoremap <buffer>g :w !gams % errmsg=1<CR><CR>
-" Text File commands
-    au BufNewFile, BufRead *.txt
-        \ set textwidth=8000       " will auto indent after this
-" Java
-    " Just define leader-g to run
+" ---------------------------------      txt files          --------------
+    " Avoid autoindents
+    au BufNewFile, BufRead *.txt set textwidth=8000
+" ---------------------------------      Java               --------------
+    " leader-g runs
         autocmd FileType javascript nnoremap <buffer> <leader>g :w<CR>:!clear && node %<CR>
-" Shell
-    " Just define leader-g to run
+" ---------------------------------      Shell              --------------
+    " leader-g runs
         autocmd FileType sh nnoremap <buffer> <leader>g :w<CR>:! clear && ./%<CR>
-" C
-    autocmd FileType c nnoremap <buffer> <leader>g :w<CR>:!clear && gcc % -o %<.out  && ./%<.out<CR>
-    "autocmd FileType c set makeprg=make\ -C\ ../build\ -j9
+" ---------------------------------      C                  --------------
+    " leader-g runs
+        autocmd FileType c nnoremap <buffer> <leader>g :w<CR>:!clear && gcc % -o %<.out  && ./%<.out<CR>
