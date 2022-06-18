@@ -178,29 +178,20 @@
         set encoding=utf-8  " UTF8 with python
 
     " Shortcuts to run code
-    let g:python_run_main = 1
-    autocmd FileType python3 nnoremap <buffer> <leader>g :w<CR>:! clear && python main.py<CR>
-    autocmd FileType python nnoremap <buffer> <leader>g :w<CR>:! clear && python main.py<CR>
+    autocmd FileType python nnoremap <leader>g :w<CR>:!python main.py<CR>
+    autocmd FileType python3 nnoremap <leader>g :w<CR>:!python main.py<CR>
+    nnoremap <leader>gg :call PythonSetRunFile(@%)<CR>
+    function! PythonSetRunFile(python_file)
+        execute 'autocmd FileType python nnoremap <leader>g :w<CR>:!python '.a:python_file.'<CR>'
+        execute 'autocmd FileType python3 nnoremap <leader>g :w<CR>:!python '.a:python_file.'<CR>'
+        :e
+    endfunction
 
-    nnoremap <leader>gg :call PythonRunToggle()<CR>
-        function! PythonRunToggle()
-            if g:python_run_main
-                autocmd FileType python3 nnoremap <buffer> <leader>g :w<CR>:! clear && python %<CR>
-                autocmd FileType python nnoremap <buffer> <leader>g :w<CR>:! clear && python %<CR>
-                let g:python_run_main = 0
-            else
-                autocmd FileType python3 nnoremap <buffer> <leader>g :w<CR>:! clear && python main.py<CR>
-                autocmd FileType python nnoremap <buffer> <leader>g :w<CR>:! clear && python main.py<CR>
-                let g:python_run_main = 1
-            endif
-            :e
-        endfunction
-
-        autocmd FileType python3 nnoremap <buffer> <F7> :w<CR>:! clear && python -m unittest<CR>
-        autocmd FileType python nnoremap <buffer> <F7> :w<CR>:! clear && python -m unittest<CR>
+    autocmd FileType python3 nnoremap <buffer> <F7> :w<CR>:!python -m unittest<CR>
+    autocmd FileType python nnoremap <buffer> <F7> :w<CR>:!python -m unittest<CR>
         
-    " leader-dj means running django, so jd does runserver
-        map <leader>jd :w <CR> :!python manage.py runserver <CR>
+    " leader-dj means running django, so qjd starts runserver
+        map <leader>qjd :w <CR> :!python manage.py runserver<CR>
 
     " Make python code pretty
         let python_highlight_all=1
@@ -208,9 +199,9 @@
     " Direct python output to a vim window, not to the external shell
         autocmd Filetype python nnoremap <buffer> <F6> :w<CR>:ter python "%"<CR>
 
-    " Macros
-        autocmd Filetype python let @e = "oexit()"  " Adds exit() on next line
-        autocmd Filetype python let @b = "obreakpoint()"  " Adds breakpoint on next line
+    " Macros - add exit() and breakpoint()
+        autocmd Filetype python nnoremap <buffer> <leader>e oexit() 
+        autocmd Filetype python nnoremap <buffer> <leader>e obreakpoint()
 " ---------------------------------      Pymode             --------------
     " Settings
         let g:pymode_options_max_line_length = 99
