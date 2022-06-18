@@ -33,9 +33,12 @@
     Plugin 'tpope/vim-surround'                     " Vim surround for brackets and things
     Plugin 'tpope/vim-fugitive'                     " premier git plugin for Vim... apparently
     Plugin 'Townk/vim-autoclose'                    " Auto-close brackets and tings
-    Plugin 'kkoomen/vim-doge'                       " 
-    Plugin 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-    call vundle#end()            " required 
+    Plugin 'kkoomen/vim-doge'                       "
+    "Plugin 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+    "Plugin 'nvie/vim-flake8'                       " PEP 8 checking
+    "Plugin 'vim-syntastic/syntastic'                       " PEP 8 checking
+    Plugin 'dense-analysis/ale'                       " PEP 8 checking
+    call vundle#end()            " required
 " ---------------------------------      General            --------------
     " General editing
         syntax enable           " enable syntax processing
@@ -57,7 +60,7 @@
         set updatetime=100  " Will update gitgutter (and other things) more regularly
         filetype plugin on      " Used by nerdcommenter to get 'comment string'
 
-    " jk is escape and kj is escape write 
+    " jk is escape and kj is escape write
         inoremap jk <esc>l
         inoremap kj <esc>l:w<CR>
 
@@ -70,14 +73,23 @@
     " Make vsplits open to right, splits open below
         :set splitright
         :set splitbelow
-        
-    " Fix accidentally hitting F1 and bringing up help instead of esc     
+
+    " Fix accidentally hitting F1 and bringing up help instead of esc
         inoremap <F1> <esc>
         vnoremap <F1> <esc>
     " Colorscheme
         nnoremap <leader>qc1 :colorscheme  256_noir<CR>
         nnoremap <leader>qc2 :colorscheme  elflord<CR>
 " ---------------------------------      Functions          --------------
+    "Remove trailing whitespace
+    function! <SID>StripTrailingWhitespaces()
+        let l = line(".")
+        let c = col(".")
+        %s/\s\+$//e
+        call cursor(l, c)
+    endfun
+    autocmd BufWritePre * call <SID>StripTrailingWhitespaces()
+
     " Avoid
     " Avoid indents when pasting from system clipboard.
         let &t_SI .= "\<Esc>[?2004h"
@@ -93,7 +105,7 @@
 " ---------------------------------      Leader mappings    --------------
     let mapleader=" "
 
-    " Toggles spell check with leader-s    
+    " Toggles spell check with leader-s
         nnoremap <leader>s :set spell! <CR>
 
     " Chnage line endings to dos
@@ -103,7 +115,7 @@
         nnoremap <leader>j o<ESC>k
 
     " Auto complete lines
-        inoremap <S-Tab> <C-x><C-l> 
+        inoremap <S-Tab> <C-x><C-l>
 
     " Change directory shortcuts
         nnoremap <leader>cd :cd %:h<CR>
@@ -123,7 +135,7 @@
             autocmd VimEnter * NERDTree
         endif
         autocmd VimEnter * wincmd p
-        
+
     " Colorscheme
         if has('unix') != 1
             colorscheme orbital
@@ -137,25 +149,32 @@
         "
         " leader-n toggles NERDTree
             autocmd VimEnter * nmap <leader>n :NERDTreeToggle<CR>
-            
-    " Lightline 
+
+    " Lightline
         " Lightline colorscheme and make it reload when changing buffer
         let g:lightline = {'colorscheme': 'darcula'} "Lightline changes the status bar colour scheme"
         autocmd BufEnter * call lightline#enable()
+    " ale
+        let g:ale_linters = {'python': 'all'}
+        let g:ale_fixers = {'python': ['isort', 'yapf', 'remove_trailing_lines']}
+        let g:ale_fix_on_save = 1
+        let g:ale_echo_msg_error_str = 'E'
+        let g:ale_echo_msg_warning_str = 'W'
+        let g:ale_echo_msg_format = '%code: %s [%linter%] [%severity%]'
 " ---------------------------------      Folding            --------------
     " Enable folding
-        set foldenable          
+        set foldenable
 
     " 10 nested fold max
-        set foldnestmax=10      
+        set foldnestmax=10
 
     "leader-f open a folds at cursor and leader-qf opens all folds at cursor
         nnoremap <leader>f za
         nnoremap <leader>qf zO
 
     " fold based on indent level
-        set foldmethod=indent 
-    
+        set foldmethod=indent
+
     " Toggle folding only the modified lines from gitgutter
         nnoremap <leader>qg :GitGutterFold<CR>
 
@@ -180,34 +199,37 @@
     " Shortcuts to run code
     autocmd FileType python nnoremap <leader>g :w<CR>:!python main.py<CR>
     autocmd FileType python3 nnoremap <leader>g :w<CR>:!python main.py<CR>
-    nnoremap <leader>qg :call PythonSetRunFile(@%)<CR>
+
     function! PythonSetRunFile(python_file)
         execute 'autocmd FileType python nnoremap <leader>g :w<CR>:!python '.a:python_file.'<CR>'
         execute 'autocmd FileType python3 nnoremap <leader>g :w<CR>:!python '.a:python_file.'<CR>'
         :e
     endfunction
 
-    autocmd FileType python3 nnoremap <buffer> <F7> :w<CR>:!python -m unittest<CR>
-    autocmd FileType python nnoremap <buffer> <F7> :w<CR>:!python -m unittest<CR>
-        
+    nnoremap <leader>qg :call PythonSetRunFile(@%)<CR>
+
+    "autocmd FileType python3 nnoremap <buffer> <F7> :w<CR>:!python -m unittest<CR>
+    "autocmd FileType python nnoremap <buffer> <F7> :w<CR>:!python -m unittest<CR>
+
     " leader-dj means running django, so qjd starts runserver
         map <leader>qjd :w <CR> :!python manage.py runserver<CR>
 
     " Make python code pretty
         let python_highlight_all=1
+        syntax on
 
     " Direct python output to a vim window, not to the external shell
         autocmd Filetype python nnoremap <buffer> <F6> :w<CR>:ter python "%"<CR>
 
     " Macros - add exit() and breakpoint()
-        autocmd Filetype python nnoremap <buffer> <leader>e oexit() 
+        autocmd Filetype python nnoremap <buffer> <leader>e oexit()
         autocmd Filetype python nnoremap <buffer> <leader>e obreakpoint()
 " ---------------------------------      Pymode             --------------
     " Settings
         let g:pymode_options_max_line_length = 99
         let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length}
         let g:pymode_options_colorcolumn = 1
-       
+
     :filetype indent on
     " Pymode uses python 2 by default. Make it use python 3
         let g:pymode_python = 'python3'
@@ -217,7 +239,7 @@
             set pythonthreehome=C:\Users\User\AppData\Local\Programs\Python\Python38-32
             set pythonthreedll=C:\Users\User\AppData\Local\Programs\Python\Python38-32\python38.dll
             let $PYTHONHOME = 'C:\Users\User\AppData\Local\Programs\Python\Python38-32'
-        endif 
+        endif
 
     "Avoids an annoying warning
         if has('python3')
@@ -241,8 +263,8 @@
      "autocmd BufEnter *.tex colorscheme atom
 
     " Save before compiling with leader t
-    autocmd BufEnter *.tex map <Leader>g :w<CR><Leader>ll 
-        
+    autocmd BufEnter *.tex map <Leader>g :w<CR><Leader>ll
+
     "stop vim suite closing the file I compiled and opening something else
     let g:Tex_GotoError=0"
 
@@ -255,7 +277,7 @@
     " Define file type
         au BufRead,BufNewFile *.gms set filetype=gams
 
-    "leader-g runs the code.  Would be nice if it produced a log file.  
+    "leader-g runs the code.  Would be nice if it produced a log file.
         autocmd FileType gams nnoremap <buffer> <leader>g :w !gams % errmsg=1<CR><CR>
     " Leader e goes to the next error
         autocmd BufRead,BufNewFile *.lst nnoremap <buffer> <leader>e :/\*\*\*\*<CR>
@@ -277,7 +299,7 @@
             map <leader>rc :tabnew ~/vimfiles/vimrc<CR>
         elseif hostname() == "acer-artix"
             map <leader>rc :tabnew ~/.vim/vimrc<CR>
-        endif 
+        endif
 
     " leader-g saves, sources and re-opens
        au BufRead,BufNewFile vimrc nnoremap <buffer> <leader>g :w<CR>:so %<CR>:e %<CR>
