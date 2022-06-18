@@ -180,7 +180,7 @@
     " Shortcuts to run code
     autocmd FileType python nnoremap <leader>g :w<CR>:!python main.py<CR>
     autocmd FileType python3 nnoremap <leader>g :w<CR>:!python main.py<CR>
-    nnoremap <leader>gg :call PythonSetRunFile(@%)<CR>
+    nnoremap <leader>qg :call PythonSetRunFile(@%)<CR>
     function! PythonSetRunFile(python_file)
         execute 'autocmd FileType python nnoremap <leader>g :w<CR>:!python '.a:python_file.'<CR>'
         execute 'autocmd FileType python3 nnoremap <leader>g :w<CR>:!python '.a:python_file.'<CR>'
