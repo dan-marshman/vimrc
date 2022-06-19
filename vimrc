@@ -118,6 +118,9 @@
     " Change directory shortcuts
         nnoremap <leader>cd :cd %:h<CR>
         nnoremap <leader>lcd :lcd %:h<CR>
+
+    " Git push
+        nnoremap <leader>qgp :!git push origin master<CR>
 " ---------------------------------      GUI/WINDOWS        --------------
     " General things
         au GUIEnter * simalt ~x " Open full screen
