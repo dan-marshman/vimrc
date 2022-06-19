@@ -152,13 +152,23 @@
         " Lightline colorscheme and make it reload when changing buffer
         let g:lightline = {'colorscheme': 'darcula'} "Lightline changes the status bar colour scheme"
         autocmd BufEnter * call lightline#enable()
-    " ale
-        let g:ale_linters = {'python': 'all'}
-        let g:ale_fixers = {'python': ['isort', 'yapf', 'remove_trailing_lines']}
+
+    " ALE
+        let g:ale_linters = {'python': ['pylint', 'mypy']}
+        let g:ale_fixers = {'python': ['isort', 'yapf', 'remove_trailing_lines', 'add_blank_lines_for_python_control_statements']}
         let g:ale_fix_on_save = 1
         let g:ale_echo_msg_error_str = 'E'
         let g:ale_echo_msg_warning_str = 'W'
         let g:ale_echo_msg_format = '%code: %%s [%linter%] [%severity%]'
+
+        nnoremap <leader>lo :lopen<CR>
+        nnoremap <leader>lc :lclose<CR>
+        nnoremap <leader>ln :lnext<CR>
+        nnoremap <leader>lp :lprevious<CR>
+
+    " DoGe
+        let g:doge_mapping_comment_jump_forward = '<C-J>'
+        let g:doge_mapping_comment_jump_backward = '<S-J>'
 " ---------------------------------      Folding            --------------
     " Enable folding
         set foldenable
