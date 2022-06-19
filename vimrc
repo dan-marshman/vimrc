@@ -34,11 +34,9 @@
     Plugin 'tpope/vim-fugitive'                     " premier git plugin for Vim... apparently
     Plugin 'Townk/vim-autoclose'                    " Auto-close brackets and tings
     Plugin 'kkoomen/vim-doge'                       "
-    "Plugin 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-    "Plugin 'nvie/vim-flake8'                       " PEP 8 checking
-    "Plugin 'vim-syntastic/syntastic'                       " PEP 8 checking
     Plugin 'dense-analysis/ale'                       " PEP 8 checking
     call vundle#end()            " required
+    Plugin 'ludovicchabant/vim-gutentags'
 " ---------------------------------      General            --------------
     " General editing
         syntax enable           " enable syntax processing
@@ -160,7 +158,7 @@
         let g:ale_fix_on_save = 1
         let g:ale_echo_msg_error_str = 'E'
         let g:ale_echo_msg_warning_str = 'W'
-        let g:ale_echo_msg_format = '%code: %s [%linter%] [%severity%]'
+        let g:ale_echo_msg_format = '%code: %%s [%linter%] [%severity%]'
 " ---------------------------------      Folding            --------------
     " Enable folding
         set foldenable
