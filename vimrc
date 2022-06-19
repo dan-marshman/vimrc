@@ -154,17 +154,24 @@
         autocmd BufEnter * call lightline#enable()
 
     " ALE
-        let g:ale_linters = {'python': ['pylint', 'mypy']}
-        let g:ale_fixers = {'python': ['isort', 'yapf', 'remove_trailing_lines', 'add_blank_lines_for_python_control_statements']}
-        let g:ale_fix_on_save = 1
-        let g:ale_echo_msg_error_str = 'E'
-        let g:ale_echo_msg_warning_str = 'W'
-        let g:ale_echo_msg_format = '%code: %%s [%linter%] [%severity%]'
+        " Some settings
+            let g:ale_linters = {'python': ['pylint', 'mypy']}
+            let g:ale_fixers = {'python': ['isort', 'yapf', 'remove_trailing_lines', 'add_blank_lines_for_python_control_statements']}
+            let g:ale_echo_msg_error_str = 'E'
+            let g:ale_echo_msg_warning_str = 'W'
+            let g:ale_echo_msg_format = '%code: %%s [%linter%] [%severity%]'
 
-        nnoremap <leader>lo :lopen<CR>
-        nnoremap <leader>lc :lclose<CR>
-        nnoremap <leader>ln :lnext<CR>
-        nnoremap <leader>lp :lprevious<CR>
+        " When to lint
+            let g:ale_fix_on_save = 1
+            let g:ale_lint_on_text_changed = 0
+            let g:ale_lint_on_insert_leave = 0
+            let g:ale_lint_on_enter = 1
+
+        " Opening the location list
+            nnoremap <leader>lo :lopen<CR>
+            nnoremap <leader>lc :lclose<CR>
+            nnoremap <leader>ln :lnext<CR>
+            nnoremap <leader>lp :lprevious<CR>
 
     " DoGe
         let g:doge_mapping_comment_jump_forward = '<C-J>'
