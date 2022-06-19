@@ -215,12 +215,12 @@
         set encoding=utf-8  " UTF8 with python
 
     " Shortcuts to run code
-    autocmd FileType python nnoremap <leader>g :w<CR>:!python main.py<CR>
-    autocmd FileType python3 nnoremap <leader>g :w<CR>:!python main.py<CR>
+    autocmd FileType python nnoremap <leader>g :w<CR>:!clear && python main.py<CR>
+    autocmd FileType python3 nnoremap <leader>g :w<CR>:!clear && python main.py<CR>
 
     function! PythonSetRunFile(python_file)
-        execute 'autocmd FileType python nnoremap <leader>g :w<CR>:!python '.a:python_file.'<CR>'
-        execute 'autocmd FileType python3 nnoremap <leader>g :w<CR>:!python '.a:python_file.'<CR>'
+        execute 'autocmd FileType python nnoremap <leader>g :w<CR>:!clear && python '.a:python_file.'<CR>'
+        execute 'autocmd FileType python3 nnoremap <leader>g :w<CR>:!clear && python '.a:python_file.'<CR>'
         :e
     endfunction
 
