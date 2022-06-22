@@ -1,0 +1,6 @@
+*
+!README
+!vimrc
+!.gitignore
+filetype.vim
+ftplugin.vim
