@@ -35,8 +35,8 @@
     Plugin 'Townk/vim-autoclose'                    " Auto-close brackets and tings
     Plugin 'kkoomen/vim-doge'                       "
     Plugin 'dense-analysis/ale'                       " PEP 8 checking
-    call vundle#end()            " required
     Plugin 'ludovicchabant/vim-gutentags'
+    call vundle#end()            " required
 " ---------------------------------      General            --------------
     " General editing
         syntax enable           " enable syntax processing
