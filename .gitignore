@@ -2,3 +2,5 @@
 !README
 !vimrc
 !.gitignore
+ftplugin.vim
+filtetype.vim
