@@ -4,8 +4,7 @@
         filetype off
 " ---------------------------------      Vundle             --------------
     "Set Vundle path
-        let hostname = substitute(system('hostname'), '\n', '', '')
-        if hostname == "MR"
+        if hostname() == "MR"
             set rtp+=C:/Users/User/.vim/bundle/Vundle.vim
         elseif hostname() == "acer-artix"
             set rtp+=/home/dan/.vim/bundle/Vundle.vim
@@ -25,7 +24,7 @@
     Plugin 'itchyny/lightline.vim'                  " Allows changing the status bar colour
     Plugin 'airblade/vim-gitgutter'                 " Shows git symbols in the 'gutter'
     Plugin 'mattn/emmet-vim'                        " HTML plugin
-    Plugin 'chrisbra/csv.vim'                       " CSV pluginn n n n 'kezhenxu94/vim-mysql-plugin.git'
+    Plugin 'chrisbra/csv.vim'                       " CSV plugin
     Plugin 'iamcco/markdown-preview.nvim'           " Markdown previewer. Run ':call mkdp#util#install() to make it  work
     Plugin 'tpope/vim-ragtag'                       " HTML (and other languages) assisstant
     Plugin 'ap/vim-css-color'                       " CSS colour name highlighter
@@ -34,8 +33,9 @@
     Plugin 'tpope/vim-fugitive'                     " premier git plugin for Vim... apparently
     Plugin 'Townk/vim-autoclose'                    " Auto-close brackets and tings
     Plugin 'kkoomen/vim-doge'
-    Plugin 'dense-analysis/ale'                       " PEP 8 checking
+    "Plugin 'dense-analysis/ale'                       " PEP 8 checking
     Plugin 'ludovicchabant/vim-gutentags'
+    Plugin 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
     call vundle#end()            " required
 " ---------------------------------      General            --------------
     " General editing
@@ -158,8 +158,8 @@
 
     " ALE
         " Some settings
-            let g:ale_linters = {'python': ['pylint', 'mypy']}
-            let g:ale_fixers = {'python': ['isort', 'yapf', 'remove_trailing_lines', 'add_blank_lines_for_python_control_statements']}
+            let g:ale_linters = {'python': ['flake8']}
+            let g:ale_fixers = {'python': ['remove_trailing_lines', 'add_blank_lines_for_python_control_statements']}
             let g:ale_echo_msg_error_str = 'E'
             let g:ale_echo_msg_warning_str = 'W'
             let g:ale_echo_msg_format = '%code: %%s [%linter%] [%severity%]'
@@ -179,6 +179,28 @@
     " DoGe
         let g:doge_mapping_comment_jump_forward = '<C-J>'
         let g:doge_mapping_comment_jump_backward = '<S-J>'
+
+    " Pymode
+        " Settings
+            let g:pymode_options_max_line_length = 99
+            let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length}
+            let g:pymode_options_colorcolumn = 1
+            :filetype indent on
+
+        " Pymode uses python 2 by default. Make it use python 3
+            let g:pymode_python = 'python3'
+
+        "Seem to need to set these on MR
+            if hostname() == "MR"
+                set pythonthreehome=C:\Users\User\AppData\Local\Programs\Python\Python38-32
+                set pythonthreedll=C:\Users\User\AppData\Local\Programs\Python\Python38-32\python38.dll
+                let $PYTHONHOME = 'C:\Users\User\AppData\Local\Programs\Python\Python38-32'
+            endif
+
+        "Avoids an annoying warning
+            if has('python3')
+            silent! python3 1
+            endif
 " ---------------------------------      Folding            --------------
     " Enable folding
         set foldenable
@@ -216,11 +238,9 @@
 
     " Shortcuts to run code
     autocmd FileType python nnoremap <leader>g :w<CR>:!clear && python main.py<CR>
-    autocmd FileType python3 nnoremap <leader>g :w<CR>:!clear && python main.py<CR>
 
     function! PythonSetRunFile(python_file)
         execute 'autocmd FileType python nnoremap <leader>g :w<CR>:!clear && python '.a:python_file.'<CR>'
-        execute 'autocmd FileType python3 nnoremap <leader>g :w<CR>:!clear && python '.a:python_file.'<CR>'
         :e
     endfunction
 
@@ -242,27 +262,9 @@
     " Macros - add exit() and breakpoint()
         autocmd Filetype python nnoremap <buffer> <leader>e oexit()
         autocmd Filetype python nnoremap <buffer> <leader>e obreakpoint()
-" ---------------------------------      Pymode             --------------
-    " Settings
-        let g:pymode_options_max_line_length = 99
-        let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length}
-        let g:pymode_options_colorcolumn = 1
 
-    :filetype indent on
-    " Pymode uses python 2 by default. Make it use python 3
-        let g:pymode_python = 'python3'
-
-    "Seem to need to set these on MR
-        if hostname == "MR"
-            set pythonthreehome=C:\Users\User\AppData\Local\Programs\Python\Python38-32
-            set pythonthreedll=C:\Users\User\AppData\Local\Programs\Python\Python38-32\python38.dll
-            let $PYTHONHOME = 'C:\Users\User\AppData\Local\Programs\Python\Python38-32'
-        endif
-
-    "Avoids an annoying warning
-        if has('python3')
-          silent! python3 1
-        endif
+    " Unit testing
+        autocmd FileType python nnoremap <leader>u :w<CR>:!python -m unittest<CR>
 " ---------------------------------      Latex Suite        --------------
     " REQUIRED.
     " This makes vim invoke Latex-Suite when you open a tex file.
@@ -313,7 +315,7 @@
             autocmd FileType arduino nnoremap <buffer> <leader>g :w<CR>:!prun<CR>
 " ---------------------------------      VIMRC              --------------
     " leader-rc opens
-        if hostname == "MR"
+        if hostname() == "MR"
             map <leader>rc :tabnew ~/vimfiles/vimrc<CR>
         elseif hostname() == "acer-artix"
             map <leader>rc :tabnew ~/.vim/vimrc<CR>
